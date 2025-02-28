@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  app:
+    # network_mode: host  # Faz o contêiner usar a rede do host
+    build: .
+    privileged: true  # Necessário para manipular VPNs
+    ports:
+      - "1701:1701"   # Mapeia a porta servico IPSEC
+      - "5000:5000"   # Mapeia a porta 5000 do contêiner para o host
+
+# volumes:
+#   ipsec_conf:
+#   ipsec_secrets:
+#   xl2tpd_conf:
+#   ppp_conf:
+
