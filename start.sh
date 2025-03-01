@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # #habilitar o manager do NetworkManager
-# sed -i 's/managed=false/managed=true/g' /etc/NetworkManager/NetworkManager.conf
+sed -i 's/managed=false/managed=true/g' /etc/NetworkManager/NetworkManager.conf
 
 
 chmod +x /app/scripts/createL2TP.sh
