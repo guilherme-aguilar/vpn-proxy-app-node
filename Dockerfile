@@ -30,7 +30,6 @@ COPY src/ src
 COPY scripts/ scripts
 COPY start.sh /app/start.sh
 
-COPY ./NetworkManager/polkit-nm-all.pkla /etc/polkit-1/localauthority/50-local.d/
 # Tornar o script executável
 RUN chmod +x /app/start.sh
 
@@ -38,4 +37,5 @@ RUN chmod +x /app/start.sh
 EXPOSE 5000
 
 # Comando para iniciar tudo
-CMD ["/app/start.sh"]
+ENTRYPOINT ["/bin/bash", "-c"]
+CMD [". /app/start.sh"]
