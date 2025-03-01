@@ -20,7 +20,8 @@ nmcli connection \
     vpn.data "gateway = $IP_DO_SERVIDOR, ipsec-enabled = yes, ipsec.psk.flags = 0, machine-auth-type = psk, password-flags = 0, user-auth-type = password, user = $USUARIO" \
     vpn.secrets "ipsec-psk = $SENHA_PSK, password = $SENHA" \
     ipv4.method auto \
-    ipv6.method auto
+    ipv6.method auto \
+    connection.secondaries "Host Connection"
 
 
 # nmcli connection up $NAME

@@ -13,5 +13,7 @@ service dbus start
 # Iniciar o NetworkManager
 service network-manager start
 
+nmcli connection add type ethernet ifname eth0 con-name "Host Connection"
+
 # Iniciar a aplicação Node.js
 node src/server.js
