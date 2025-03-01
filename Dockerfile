@@ -13,13 +13,8 @@ RUN apt-get update && apt-get install -y \
     nano \
     software-properties-common \
     dbus \
+    network-manager-l2tp \
     && rm -rf /var/lib/apt/lists/*
-
-# Adicionar repositório do NetworkManager-l2tp
-RUN add-apt-repository ppa:nm-l2tp/network-manager-l2tp -y
-
-# Instalar o NetworkManager-l2tp
-RUN apt-get update && apt-get install -y network-manager-l2tp
 
 # Criar diretório da aplicação
 WORKDIR /app
