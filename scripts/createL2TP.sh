@@ -28,4 +28,4 @@ nmcli connection \
 
 
 # Exemplo de uso:
-# ./createL2TP.sh '179.162.36.73' 'VPN-MIRROR' 'stU123!@#2023' 'GANetwork' 'teste01'
+# . /app/scripts/createL2TP.sh '179.162.36.73' 'VPN-MIRROR' 'stU123!@#2023' 'GANetwork' 'teste01'

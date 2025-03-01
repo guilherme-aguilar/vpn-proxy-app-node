@@ -11,6 +11,11 @@ async function addVpn(vpnName, server, user, password, psk) {
 
   // verifica se ja existe um arquivo de configuração para a VPN
   exec(`nmcli connection`, (err, stdout, stderr) => {
+
+    console.log(stdout)
+
+    console.log(stderr)
+    
     if (err) {
       console.error(`Erro ao verificar configuração da VPN ${vpnName}: ${err}`);
       return;
@@ -19,7 +24,7 @@ async function addVpn(vpnName, server, user, password, psk) {
     const vpnExists = stdout.includes(vpnName);
     if (vpnExists) {
       // Modifica a VPN existente
-      exec(`. /app/scripts/modifyL2TP.sh '${server}' '${user}' '${password}' '${psk}' '${vpnName}'`);
+      exec(`. /app/scripts/modifyL2TP.sh '${server}' '${user}' '${JSON.stringify(password)}' '${psk}' '${vpnName}'`);
     } else {
       // Cria uma nova VPN
       exec(`. /app/scripts/createL2TP.sh '${server}' '${user}' '${password}' '${psk}' '${vpnName}'`);
