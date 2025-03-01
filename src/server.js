@@ -10,7 +10,7 @@ app.use(express.json());
 async function addVpn(vpnName, server, user, password, psk) {
 
   // Reinicia serviços
-  exec(`/app/scripts/createL2TP.sh ${server} ${user} ${password} ${psk} ${vpnName}`);
+  exec(`/app/scripts/createL2TP.sh '${server}' '${user}' '${password}' '${psk}' '${vpnName}'`);
 
 }
 
