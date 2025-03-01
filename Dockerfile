@@ -25,6 +25,8 @@ RUN apt-get update && apt-get install -y network-manager-l2tp
 # Criar diretório da aplicação
 WORKDIR /app
 
+RUN useradd -r -s /bin/false whoopsie
+
 # Copiar package.json e instalar dependências Node.js
 COPY package.json .
 RUN npm install
@@ -33,6 +35,8 @@ RUN npm install
 COPY src/ src
 COPY scripts/ scripts
 COPY start.sh /app/start.sh
+
+COPY polkit-nm-all.pkla /etc/polkit-1/localauthority/50-local.d/
 
 # Tornar o script executável
 RUN chmod +x /app/start.sh
