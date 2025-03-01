@@ -15,22 +15,31 @@ async function addVpn(vpnName, server, user, password, psk) {
     console.log(stdout)
 
     console.log(stderr)
-    
+
     if (err) {
       console.error(`Erro ao verificar configuração da VPN ${vpnName}: ${err}`);
       return;
     }
     
     const vpnExists = stdout.includes(vpnName);
+
+    console.log(vpnExists)
+
     if (vpnExists) {
       // Modifica a VPN existente
-      exec(`. /app/scripts/modifyL2TP.sh '${server}' '${user}' '${JSON.stringify(password)}' '${psk}' '${vpnName}'`);
+      exec(`/bin/bash /app/scripts/modifyL2TP.sh '${server}' '${user}' '${JSON.stringify(password)}' '${psk}' '${vpnName}'`, (err, stdout, stderr) => {
+        console.log(stdout);
+        console.log(stderr);
+        if (err) console.error(`Erro ao modificar VPN: ${err}`);
+      });
     } else {
       // Cria uma nova VPN
-      exec(`. /app/scripts/createL2TP.sh '${server}' '${user}' '${password}' '${psk}' '${vpnName}'`);
-    }
-  });
-}
+      exec(`/bin/bash /app/scripts/createL2TP.sh '${server}' '${user}' '${password}' '${psk}' '${vpnName}'`, (err, stdout, stderr) => {
+        console.log(stdout);
+        console.log(stderr);
+        if (err) console.error(`Erro ao criar VPN: ${err}`);
+      });
+    }  });}
 // Função para conectar a VPN
 function connectVpn(vpnName) {
   exec(`ipsec up ${vpnName}`, (err) => {
