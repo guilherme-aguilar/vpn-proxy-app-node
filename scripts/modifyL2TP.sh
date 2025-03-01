@@ -12,10 +12,9 @@ if [ $# -ne 5 ]; then
 fi
 
 nmcli connection \
-    add \
+    modify $NAME \
       type vpn \
       vpn-type l2tp \
-      con-name $NAME \
     ifname -- \
     vpn.data "gateway = $IP_DO_SERVIDOR, ipsec-enabled = yes, ipsec.psk.flags = 0, machine-auth-type = psk, password-flags = 0, user-auth-type = password, user = $USUARIO" \
     vpn.secrets "ipsec-psk = $SENHA_PSK, password = $SENHA" \
@@ -27,4 +26,6 @@ nmcli connection up $NAME
 
 
 # Exemplo de uso:
-# ./createL2TP.sh '179.162.36.73' 'VPN-MIRROR' 'stU123!@#2023' 'GANetwork' 'teste01'
+
+
+./createL2TP.sh '179.162.36.73' 'VPN-MIRROR' 'stU123!@#2023' 'GANetwork' 'teste01'

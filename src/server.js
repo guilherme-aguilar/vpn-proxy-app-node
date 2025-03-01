@@ -9,11 +9,23 @@ app.use(express.json());
 // Função para adicionar uma VPN
 async function addVpn(vpnName, server, user, password, psk) {
 
-  // Reinicia serviços
-  exec(`/app/scripts/createL2TP.sh '${server}' '${user}' '${password}' '${psk}' '${vpnName}'`);
-
+  // verifica se ja existe um arquivo de configuração para a VPN
+  exec(`nmcli connection`, (err, stdout, stderr) => {
+    if (err) {
+      console.error(`Erro ao verificar configuração da VPN ${vpnName}: ${err}`);
+      return;
+    }
+    
+    const vpnExists = stdout.includes(vpnName);
+    if (vpnExists) {
+      // Modifica a VPN existente
+      exec(`. /app/scripts/modifyL2TP.sh '${server}' '${user}' '${password}' '${psk}' '${vpnName}'`);
+    } else {
+      // Cria uma nova VPN
+      exec(`. /app/scripts/createL2TP.sh '${server}' '${user}' '${password}' '${psk}' '${vpnName}'`);
+    }
+  });
 }
-
 // Função para conectar a VPN
 function connectVpn(vpnName) {
   exec(`ipsec up ${vpnName}`, (err) => {
