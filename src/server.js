@@ -8,30 +8,10 @@ app.use(express.json());
 
 // Função para adicionar uma VPN
 async function addVpn(vpnName, server, user, password, psk) {
-  // Configuração do IPSec (strongswan)
-  const ipsecConf = `
-conn ${vpnName}
-  left=%any
-  right=${server}
-  keyexchange=ikev1
-  type=transport
-  auto=add
-`;
-  await fs.appendFile('/etc/ipsec.conf', ipsecConf);
-  await fs.appendFile('/etc/ipsec.secrets', `${server} %any : PSK "${psk}"\n`);
-
-  // Configuração do L2TP (xl2tpd)
-  const xl2tpdConf = `
-[lac ${vpnName}]
-  lns = ${server}
-  pppoptfile = /etc/ppp/options.l2tpd.${vpnName}
-`;
-  await fs.appendFile('/etc/xl2tpd/xl2tpd.conf', xl2tpdConf);
-  await fs.writeFile(`/etc/ppp/options.l2tpd.${vpnName}`, `name ${user}\npassword ${password}\n`);
 
   // Reinicia serviços
-  exec('systemctl restart strongswan');
-  exec('systemctl restart xl2tpd');
+  exec(`/app/scripts/createL2TP.sh ${server} ${user} ${password} ${psk} ${vpnName}`);
+
 }
 
 // Função para conectar a VPN
