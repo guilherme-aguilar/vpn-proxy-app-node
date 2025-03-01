@@ -34,7 +34,7 @@ async function addVpn(vpnName, server, user, password, psk) {
       });
     } else {
       // Cria uma nova VPN
-      exec(`/bin/bash /app/scripts/createL2TP.sh '${server}' '${user}' '${password}' '${psk}' '${vpnName}'`, (err, stdout, stderr) => {
+      exec(`/bin/bash /app/scripts/createL2TP.sh ${server} ${user} ${JSON.stringify(password)} ${psk} ${vpnName}`, (err, stdout, stderr) => {
         console.log(stdout);
         console.log(stderr);
         if (err) console.error(`Erro ao criar VPN: ${err}`);

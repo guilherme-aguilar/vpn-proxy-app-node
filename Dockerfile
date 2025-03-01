@@ -1,5 +1,4 @@
-# Usar Ubuntu como base
-FROM ubuntu:20.04
+FROM debian:12
 
 # Evitar prompts interativos durante a instalação
 ENV DEBIAN_FRONTEND=noninteractive
