@@ -12,7 +12,8 @@ services:
     ports:
       - "1701:1701"   # Mapeia a porta servico IPSEC
       - "5000:5000"   # Mapeia a porta 5000 do contêiner para o host
-
+    Volumes:
+    - run/dbus/system_bus_socket:/host/run/dbus/system_bus_socket
 # volumes:
 #   ipsec_conf:
 #   ipsec_secrets:
