@@ -22,7 +22,7 @@ nmcli connection \
     ipv6.method auto
 
 
-nmcli connection up $NAME
+# nmcli connection up $NAME
 
 
 # Exemplo de uso:
