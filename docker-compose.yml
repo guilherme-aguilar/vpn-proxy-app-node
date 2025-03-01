@@ -1,21 +1,13 @@
-version: '3.8'
-
+version: "3.8"
 services:
-  app:
-    network_mode: host  # Faz o contêiner usar a rede do host
+  nmcli:
     build: .
-    privileged: true  # Necessário para manipular VPNs
+    network_mode: "host"
+    volumes:
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
     cap_add:
       - NET_ADMIN
-    devices:
-      - /dev/net/tun
     ports:
-      - "1701:1701"   # Mapeia a porta servico IPSEC
-      - "5000:5000"   # Mapeia a porta 5000 do contêiner para o host
-    Volumes:
-    - run/dbus/system_bus_socket:/host/run/dbus/system_bus_socket
-# volumes:
-#   ipsec_conf:
-#   ipsec_secrets:
-#   xl2tpd_conf:
-#   ppp_conf:
+    - "5000:5000"
+    stdin_open: true
+    tty: true

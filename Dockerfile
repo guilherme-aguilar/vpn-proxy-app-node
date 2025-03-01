@@ -1,41 +1,30 @@
-FROM debian:12
+FROM debian:stable-slim
 
-# Evitar prompts interativos durante a instalação
+# Evita prompts durante a instalação
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Instalar dependências do sistema, ferramentas VPN, Node.js e dbus
+# Atualiza os repositórios e instala os pacotes necessários
 RUN apt-get update && apt-get install -y \
     network-manager \
-    strongswan \
-    xl2tpd \
-    nodejs \
-    npm \
-    nano \
-    software-properties-common \
-    dbus \
     network-manager-l2tp \
-    && rm -rf /var/lib/apt/lists/*
+    dbus \
+    iputils-ping \
+    nodejs \
+    nano  \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Criar diretório da aplicação
 WORKDIR /app
-
-RUN useradd -r -s /bin/false whoopsie
 
 # Copiar package.json e instalar dependências Node.js
 COPY package.json .
 RUN npm install
 
-# Copiar o código da aplicação e o script de entrada
 COPY src/ src
 COPY scripts/ scripts
-COPY start.sh /app/start.sh
-
-# Tornar o script executável
-RUN chmod +x /app/start.sh
 
 # Expor a porta da API
 EXPOSE 5000
 
-# Comando para iniciar tudo
-ENTRYPOINT ["/bin/bash", "-c"]
-CMD [". /app/start.sh"]
+# Define o comando padrão para manter o contêiner ativo
+CMD ["node", "./src/server.js"]
